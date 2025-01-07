@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .product-title {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        .product-price {
+            color: green;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .product-description {
+            font-size: 0.9rem;
+            color: #555;
+            margin: 10px 0;
+        }
+        .product-actions button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 3px;
+        }
+        .btn-add-to-cart {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .btn-details {
+            background-color: #28A745;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Shop With Us</h1>
+        <p>Join us for the start of a new business</p>
+    </div>
+
+    <div class="container">
+        <div class="product-card">
+            <img src="../images/awe.jpg" alt="Product Image">
+            <h2 class="product-title">Glass Chair Painting</h2>
+            <p class="product-price">$29.99</p>
+            <p class="product-description">This is a short description of Product 1. It's a great item to have!</p>
+            <div class="product-actions">
+                <button class="btn-add-to-cart">Add to Cart</button>
+                <button class="btn-details">View Details</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="../images/galaxy.jpg" alt="Product Image">
+            <h2 class="product-title">Product 2</h2>
+            <p class="product-price">$49.99</p>
+            <p class="product-description">This is a short description of Product 2. High quality guaranteed!</p>
+            <div class="product-actions">
+                <button class="btn-add-to-cart">Add to Cart</button>
+                <button class="btn-details">View Details</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="../images/rain.png" alt="Product Image">
+            <h2 class="product-title">Product 3</h2>
+            <p class="product-price">$19.99</p>
+            <p class="product-description">This is a short description of Product 3. Affordable and durable!</p>
+            <div class="product-actions">
+                <button class="btn-add-to-cart">Add to Cart</button>
+                <button class="btn-details">View Details</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
