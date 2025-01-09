@@ -18,17 +18,25 @@ app.use(express.static('public')); // Serve static files (e.g., index.html)
 
 // Root Endpoint
 app.get('/', (req, res) => {
-    res.send('API is running on api.linksvoiid.com');
+    res.json({ message: "Welcome to the LinksVoiid API!" });
 });
 
 // Endpoint to provide the Stripe publishable key
 app.get('/get-publishable-key', (req, res) => {
-    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
+    const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+    if (!publishableKey) {
+        return res.status(500).json({ error: "Stripe publishable key not found in environment variables." });
+    }
+    res.json({ publishableKey });
 });
 
 // Endpoint to create a PaymentIntent
 app.post('/create-payment-intent', async (req, res) => {
     const { amount } = req.body;
+
+    if (!amount) {
+        return res.status(400).json({ error: "Amount is required to create a PaymentIntent." });
+    }
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
@@ -44,10 +52,16 @@ app.post('/create-payment-intent', async (req, res) => {
     }
 });
 
+// Fallback route for undefined endpoints
+app.use((req, res) => {
+    res.status(404).json({ error: "Route not found" });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on https://api.linksvoiid.com`);
 });
+
 
 
 
