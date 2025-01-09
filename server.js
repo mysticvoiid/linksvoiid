@@ -3,14 +3,23 @@ const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Stripe secret key from .env
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const helmet = require('helmet'); // Security headers
+const morgan = require('morgan'); // Logging middleware
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors()); // Allow CORS for cross-origin requests
+app.use(helmet()); // Add security headers
+app.use(morgan('combined')); // Log HTTP requests
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (e.g., index.html)
+
+// Root Endpoint
+app.get('/', (req, res) => {
+    res.send('API is running on api.linksvoiid.com');
+});
 
 // Endpoint to provide the Stripe publishable key
 app.get('/get-publishable-key', (req, res) => {
@@ -37,8 +46,9 @@ app.post('/create-payment-intent', async (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on https://api.linksvoiid.com`);
 });
+
 
 
 
