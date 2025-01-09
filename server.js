@@ -1,42 +1,41 @@
 require('dotenv').config(); // Load environment variables
+
 const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Stripe secret key from .env
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const helmet = require('helmet'); // Security headers
-const morgan = require('morgan'); // Logging middleware
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Stripe secret key from .env
+const bodyParser = require('body-parser'); // For handling JSON payloads
 
 const app = express();
-const PORT = process.env.PORT || 4000; // Default to port 4000 if not set in .env
+const PORT = process.env.PORT || 4000; // Port for the API
 
 // Middleware
-app.use(cors()); // Allow CORS for cross-origin requests
-app.use(helmet()); // Add security headers
-app.use(morgan('combined')); // Log HTTP requests
-app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files (e.g., index.html)
+app.use(express.static('frontend')); // Serve static files from the 'frontend' folder (for linksvoiid.com)
+app.use(bodyParser.json()); // Parse JSON bodies
 
-// Root Endpoint
-app.get('/', (req, res) => {
-    res.json({ message: "Welcome to the LinksVoiid API!" });
+// CORS configuration
+const allowedOrigins =
+    process.env.NODE_ENV === 'production'
+        ? ['https://linksvoiid.com', 'https://api.linksvoiid.com']
+        : ['http://localhost:4000', 'http://127.0.0.1:5500']; // Allow localhost for development
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type'],
+    })
+);
+
+// --- Routes ---
+
+// Stripe Publishable Key
+app.get('/get-stripe-publishable-key', (req, res) => {
+    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
 });
 
-// Endpoint to provide the Stripe publishable key
-app.get('/get-publishable-key', (req, res) => {
-    const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-    if (!publishableKey) {
-        return res.status(500).json({ error: "Stripe publishable key not found in environment variables." });
-    }
-    res.json({ publishableKey });
-});
-
-// Endpoint to create a PaymentIntent
+// Stripe Payment Intent Endpoint
 app.post('/create-payment-intent', async (req, res) => {
     const { amount } = req.body;
-
-    if (!amount) {
-        return res.status(400).json({ error: "Amount is required to create a PaymentIntent." });
-    }
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
@@ -47,17 +46,17 @@ app.post('/create-payment-intent', async (req, res) => {
 
         res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        console.error('Error creating PaymentIntent:', error.message);
+        console.error('Error creating Payment Intent:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
-// Fallback route for undefined endpoints
+// Catch-all route for undefined paths
 app.use((req, res) => {
-    res.status(404).json({ error: "Route not found" });
+    res.status(404).json({ error: 'Route not found' });
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server running on https://api.linksvoiid.com`);
+    console.log(`API running on port ${PORT}`);
 });
