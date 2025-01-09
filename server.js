@@ -7,7 +7,11 @@ const helmet = require('helmet'); // Security headers
 const morgan = require('morgan'); // Logging middleware
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000; // Change to a different port, e.g., 4000
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
 
 // Middleware
 app.use(cors()); // Allow CORS for cross-origin requests
