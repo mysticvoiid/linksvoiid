@@ -1,39 +1,23 @@
 require('dotenv').config(); // Load environment variables
-
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Stripe secret key from .env
-const bodyParser = require('body-parser'); // For handling JSON payloads
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-const PORT = process.env.PORT || 4000; // Port for the API
+const PORT = process.env.PORT || 4000;
 
 // Middleware
-app.use(express.static('frontend')); // Serve static files from the 'frontend' folder (for linksvoiid.com)
+app.use(cors()); // Allow cross-origin requests
 app.use(bodyParser.json()); // Parse JSON bodies
 
-// CORS configuration
-const allowedOrigins =
-    process.env.NODE_ENV === 'production'
-        ? ['https://linksvoiid.com', 'https://api.linksvoiid.com']
-        : ['http://localhost:4000', 'http://127.0.0.1:5500']; // Allow localhost for development
-
-app.use(
-    cors({
-        origin: allowedOrigins,
-        methods: ['GET', 'POST'],
-        allowedHeaders: ['Content-Type'],
-    })
-);
-
-// --- Routes ---
-
-// Stripe Publishable Key
+// --- API Routes ---
+// Provide Stripe Publishable Key
 app.get('/get-stripe-publishable-key', (req, res) => {
     res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
 });
 
-// Stripe Payment Intent Endpoint
+// Create Payment Intent
 app.post('/create-payment-intent', async (req, res) => {
     const { amount } = req.body;
 
@@ -46,12 +30,12 @@ app.post('/create-payment-intent', async (req, res) => {
 
         res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        console.error('Error creating Payment Intent:', error);
+        console.error('Error creating PaymentIntent:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
 
-// Catch-all route for undefined paths
+// Fallback route for undefined endpoints
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });
 });
