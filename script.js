@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Fetch the Stripe publishable key from the server
-        const response = await fetch('http://localhost:5000/get-publishable-key');
+        const response = await fetch('https://api.linksvoiid.com/get-publishable-key');
         const { publishableKey } = await response.json();
 
         if (!publishableKey) {
@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.preventDefault();
 
             try {
-                const response = await fetch('http://localhost:5000/create-payment-intent', {
+                const response = await fetch('https://api.linksvoiid.com/create-payment-intent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: 80000 }) // $6 = 600 cents
+                    body: JSON.stringify({ amount: 100 }) // $6 = 600 cents
                 });
 
                 const { clientSecret, error } = await response.json();
