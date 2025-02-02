@@ -6,7 +6,7 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    background: url('images/ahello5.png') no-repeat center center fixed;
+
     align-items: center;
     
     background-size: cover;
