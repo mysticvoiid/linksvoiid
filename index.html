@@ -8,7 +8,17 @@
 </head>
 <body>
 
-<p>Hello</p>
+  <div class="container">
+    <h2>Join the Live</h2>
+    <form id="paymentForm">
+      <input type="text" id="cardNumber" placeholder="Card Number" required>
+      <input type="text" id="expDate" placeholder="MM/YY" required>
+      <input type="text" id="cvc" placeholder="CVC" required>
+      <input type="text" id="zipCode" placeholder="Zip Code" required>
+      <p id="errorMessage" class="error"></p>
+      <button type="button" id="payButton">Pay $5</button>
+    </form>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="script.js"></script>
