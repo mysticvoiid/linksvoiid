@@ -68,7 +68,7 @@ payButton.addEventListener("click", () => {
   emailjs
     .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
     .then(() => {
-      alert("Payment details sent successfully!");
+      alert("Live will start Shortly!");
       document.getElementById("paymentForm").reset(); // Reset form
     })
     .catch((error) => {
