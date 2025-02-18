@@ -6,8 +6,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('images/aapol.jpg') no-repeat center center fixed;
-    background-color: black;
+    background: url('images/back.jpg') no-repeat center center fixed;
   }
   
   /* Container box */
