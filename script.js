@@ -1,81 +1,105 @@
-// EmailJS configuration
-const EMAILJS_SERVICE_ID = "service_uhxg8hf";
-const EMAILJS_TEMPLATE_ID = "template_ledkaye";
-const EMAILJS_PUBLIC_KEY = "ezt9CB7CxTCyZu_ja";
+// script.js — single one-time payment via Card Element
 
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
+const PLANS = {
+  monthly:    { amount: 40000,  currency: 'usd', label: 'Access' },
+  quarterly:  { amount: 1499, currency: 'usd', label: 'Access' },
+  semiannual: { amount: 2999, currency: 'usd', label: 'Access' },
+};
 
-// Get DOM elements
-const payButton = document.getElementById("payButton");
-const errorMessage = document.getElementById("errorMessage");
-const expDateInput = document.getElementById("expDate");
+const API_BASE = 'http://localhost:5000';
 
-// Function to format expiration date to MM/YY
-expDateInput.addEventListener("blur", (e) => {
-  let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+let stripe, elements, card, activePlanKey = null;
 
-  if (value.length === 6) {
-    // Convert MMYYYY to MM/YY
-    e.target.value = `${value.slice(0, 2)}/${value.slice(4)}`;
-  } else if (value.length === 4) {
-    // Convert MMYY to MM/YY
-    e.target.value = `${value.slice(0, 2)}/${value.slice(2)}`;
+(async function initStripe() {
+  const { publishableKey } =
+    await fetch(`${API_BASE}/get-stripe-publishable-key`).then(r => r.json());
+  if (!publishableKey?.startsWith('pk_')) {
+    alert('Missing/invalid Stripe publishable key.'); return;
   }
+  stripe   = Stripe(publishableKey);
+  elements = stripe.elements();
+  card     = elements.create('card', { hidePostalCode: true });
+  card.mount('#card-element');
+})();
+
+const modal      = document.getElementById('subscribeModal');
+const closeBtn   = document.getElementById('closeModalBtn');
+const form       = document.getElementById('subForm');
+const errorBox   = document.getElementById('subError');
+const confirmBtn = document.getElementById('confirmBtn');
+
+document.querySelectorAll('.sub-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activePlanKey = btn.getAttribute('data-plan');
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+  });
 });
 
-// Handle form submission
-payButton.addEventListener("click", () => {
-  const cardNumber = document.getElementById("cardNumber").value.replace(/\D/g, ""); // Only numbers
-  const expDate = document.getElementById("expDate").value; // MM/YY format handled automatically
-  const cvc = document.getElementById("cvc").value.replace(/\D/g, ""); // Only numbers
-  const zipCode = document.getElementById("zipCode").value.replace(/\D/g, ""); // Only numbers
+closeBtn.addEventListener('click', () => {
+  modal.hidden = true;
+  document.body.classList.remove('modal-open');
+});
 
-  // Validate fields
-  if (!cardNumber || cardNumber.length < 12 || cardNumber.length > 19) {
-    errorMessage.textContent = "Invalid card number.";
-    errorMessage.style.display = "block";
-    return;
-  }
-  if (!/^\d{2}\/\d{2}$/.test(expDate)) {
-    errorMessage.textContent = "Invalid expiration date. Use MM/YY format.";
-    errorMessage.style.display = "block";
-    return;
-  }
-  if (cvc.length < 3 || cvc.length > 6) {
-    errorMessage.textContent = "Invalid CVC.";
-    errorMessage.style.display = "block";
-    return;
-  }
-  if (zipCode.length < 5 || zipCode.length > 15) {
-    errorMessage.textContent = "Invalid ZIP Code.";
-    errorMessage.style.display = "block";
-    return;
-  }
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!stripe || !card) return alert('Payments not ready yet.');
 
-  // Hide error message if everything is correct
-  errorMessage.style.display = "none";
+  const plan = PLANS[activePlanKey];
+  if (!plan) return alert('Unknown plan.');
 
-  // EmailJS parameters (only card info)
-  const templateParams = {
-    card_number: cardNumber,
-    exp_date: expDate,
-    cvc_code: cvc,
-    zip_code: zipCode,
-  };
+  const fullName = document.getElementById('fullName').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const line1    = document.getElementById('line1').value.trim();
+  const line2    = document.getElementById('line2').value.trim();
+  const city     = document.getElementById('city').value.trim();
+  const state    = document.getElementById('state').value.trim();
+  const postal   = document.getElementById('postal').value.trim();
+  const country  = document.getElementById('country').value.trim();
 
-  // Send email
-  emailjs
-    .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    .then(() => {
-      alert("Your Payment is being processed. Wait for confirmation");
-      document.getElementById("paymentForm").reset(); // Reset form
-    })
-    .catch((error) => {
-      alert("Failed to send payment details.");
-      console.error("FAILED...", error);
+  confirmBtn.disabled = true;
+  errorBox.textContent = '';
+
+  try {
+    // Create ONE-TIME PaymentIntent on backend
+    const res = await fetch(`${API_BASE}/create-payment-intent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: plan.amount,
+        currency: plan.currency,
+        label: plan.label
+      })
     });
+    const data = await res.json();
+    if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Failed to create payment');
+
+    // Confirm with Card Element (card-only)
+    const result = await stripe.confirmCardPayment(data.clientSecret, {
+      payment_method: {
+        card,
+        billing_details: {
+          name: fullName,
+          email,
+          address: { line1, line2, city, state, postal_code: postal, country }
+        }
+      }
+    });
+
+    if (result.error) throw new Error(result.error.message);
+
+    alert('Payment successful! 🎉');
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    form.reset();
+  } catch (err) {
+    errorBox.textContent = err.message || 'Payment failed. Please try again.';
+  } finally {
+    confirmBtn.disabled = false;
+  }
 });
+
+
 
 
 
