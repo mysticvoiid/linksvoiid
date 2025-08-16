@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile Page</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Cover -->
+  <header class="cover" aria-label="Profile cover">
+    <img src="images/cover.jpg" alt="Cover photo" />
+
+    <!-- Name + stats on the cover -->
+    <div class="cover-meta">
+      <h1 class="display-name">
+        Thickums <span role="img" aria-label="face exhaling">😮‍💨</span><span role="img" aria-label="peach">🍑</span>
+        <span class="verified" aria-label="Verified">✔</span>
+      </h1>
+
+      <div class="cover-stats" aria-label="Profile stats">
+        <span class="stat"><img src="icons/pics.png"  alt="" class="stat-icon" /> 110</span>
+        <span class="dot">•</span>
+        <span class="stat"><img src="icons/vids.png"  alt="" class="stat-icon" /> 144</span>
+        <span class="dot">•</span>
+        <span class="stat"><img src="icons/heart.png" alt="" class="stat-icon" /> 72.8K</span>
+      </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="avatar-wrap">
+      <img class="avatar" src="images/aapol.jpg" alt="Profile avatar" />
+      <span class="status-dot" title="Online"></span>
+    </div>
+  </header>
+
+  <!-- Name + availability below the cover -->
+  <section class="profile-bar">
+    <div class="identity">
+      <div class="line">
+        <h1 class="name-inline">
+          Thickums <span role="img" aria-label="face exhaling">😮‍💨</span><span role="img" aria-label="peach">🍑</span>
+          <span class="verified" aria-label="Verified">✔</span>
+        </h1>
+      </div>
+      <p class="username">
+        @lildernn <span class="sep">•</span> <span class="available">Available now</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Bio -->
+  <section class="bio-block">
+    <p class="bio">
+      This is where you can see A LOT of uncensored AND PPV on my timeline &amp; messages.
+      <em>*lesbian, boy/girl, Anal, Facial &amp; more 😈</em>
+    </p>
+  </section>
+
+  <!-- Subscription Options -->
+  <section class="subscriptions" aria-label="Subscription options">
+    <button type="button" class="sub-btn" data-plan="monthly">$9.99 / month</button>
+    <button type="button" class="sub-btn" data-plan="quarterly">$14.99 / 3 months</button>
+    <button type="button" class="sub-btn" data-plan="semiannual">$95 Lifetime</button>
+  </section>
+
+    <!-- Subscription Checkout Modal -->
+  <div id="subscribeModal" class="sub-modal" hidden>
+    <div class="sub-modal__dialog">
+      <button class="sub-modal__close" id="closeModalBtn" aria-label="Close">×</button>
+
+      <h2 class="sub-modal__title">Complete your subscription</h2>
+
+      <form id="subForm">
+        <div class="grid">
+          <label>
+            <span>Full name</span>
+            <input type="text" id="fullName" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" id="email" required />
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            <span>Address line 1</span>
+            <input type="text" id="line1" required />
+          </label>
+          <label>
+            <span>Address line 2 (optional)</span>
+            <input type="text" id="line2" />
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            <span>City</span>
+            <input type="text" id="city" required />
+          </label>
+          <label>
+            <span>State / Province</span>
+            <input type="text" id="state" required />
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            <span>Postal code</span>
+            <input type="text" id="postal" required />
+          </label>
+          <label>
+            <span>Country</span>
+            <input type="text" id="country" value="US" required />
+          </label>
+        </div>
+
+        <label>
+          <span>Card details</span>
+          <div id="card-element" class="card-element"></div>
+        </label>
+
+        <div id="subError" class="sub-error" role="alert"></div>
+
+        <button type="submit" id="confirmBtn" class="sub-confirm">Start subscription</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Locked Subscribe Post (with video preview, no image) ===== -->
+<article class="ppv">
+  <!-- Header -->
+  <header class="ppv__hdr">
+    <img class="ppv__ava" src="images/aapol.jpg" alt="Thickums avatar">
+    <div class="ppv__who">
+      <div class="ppv__name">
+        Thickums <span class="ppv__v">✔</span>
+      </div>
+      <div class="ppv__meta">@lildernn • Aug 3</div>
+    </div>
+  </header>
+
+  <p class="ppv__txt">QUICK SESSION 💦💦🥺</p>
+
+  <!-- Locked media card -->
+  <div class="ppv__card">
+    <!-- Video-style preview -->
+    <div class="ppv__media" role="img" aria-label="Locked video preview">
+      <!-- gray placeholder instead of image -->
+      <div class="ppv__gray"></div>
+
+      <!-- dark overlay -->
+      <div class="ppv__overlay"></div>
+
+      <!-- centered play icon -->
+      <div class="ppv__play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="44" height="44">
+          <circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.55)"></circle>
+          <path d="M10 8l7 4-7 4V8z" fill="#fff"></path>
+        </svg>
+      </div>
+
+      <!-- duration chip -->
+      <div class="ppv__badge">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path d="M3 5h14v14H3zM17 9l4-2v10l-4-2V9z" fill="currentColor"/>
+        </svg>
+        4:23
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <button type="button" class="ppv__cta">SUBSCRIBE TO SEE POSTS</button>
+  </div>
+
+  <!-- Actions -->
+  <div class="ppv__acts">
+    <button class="ppv__act" aria-label="Like">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 21s-7-4.35-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.65-7 9-7 9z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+    <button class="ppv__act" aria-label="Comment">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v9z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+    <button class="ppv__tip">
+      <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><text x="12" y="16" text-anchor="middle" font-size="12" fill="currentColor">$</text></svg>
+      SEND TIP
+    </button>
+  </div>
+
+  <div class="ppv__likes">2099 likes • 555 comments</div>
+</article>
+
+
+  <!-- Stripe + App scripts -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
 
