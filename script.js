@@ -1,9 +1,9 @@
 // script.js — single one-time payment via Card Element
 
 const PLANS = {
-  monthly:    { amount: 40000,  currency: 'usd', label: 'Access' },
-  quarterly:  { amount: 1499, currency: 'usd', label: 'Access' },
-  semiannual: { amount: 2999, currency: 'usd', label: 'Access' },
+  monthly:    { amount: 200,  currency: 'usd', label: 'Access' },
+  quarterly:  { amount: 199, currency: 'usd', label: 'Access' },
+  semiannual: { amount: 299, currency: 'usd', label: 'Access' },
 };
 
 const API_BASE = 'http://localhost:5000';
@@ -98,6 +98,7 @@ form.addEventListener('submit', async (e) => {
     confirmBtn.disabled = false;
   }
 });
+
 
 
 
