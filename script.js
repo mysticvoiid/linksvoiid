@@ -1,33 +1,44 @@
-// script.js — single one-time payment via Card Element
+// script.js — LIVE (api.linksvoiid.com) — single one-time payment via Card Element
 
+// Hard-coded amounts (in cents). Labels are just descriptors shown in Stripe.
 const PLANS = {
-  monthly:    { amount: 200,  currency: 'usd', label: 'Access' },
-  quarterly:  { amount: 199, currency: 'usd', label: 'Access' },
-  semiannual: { amount: 299, currency: 'usd', label: 'Access' },
+  monthly:    { amount: 200, currency: 'usd', label: 'Access' },
+  quarterly:  { amount: 199,  currency: 'usd', label: 'Access' },
+  semiannual: { amount: 299,  currency: 'usd', label: 'Access' },
 };
 
-const API_BASE = 'http://localhost:5000';
+// Your live API base (backend we deployed on the droplet)
+const API_BASE = 'https://api.linksvoiid.com';
 
 let stripe, elements, card, activePlanKey = null;
 
+// -------- Init Stripe ----------
 (async function initStripe() {
-  const { publishableKey } =
-    await fetch(`${API_BASE}/get-stripe-publishable-key`).then(r => r.json());
-  if (!publishableKey?.startsWith('pk_')) {
-    alert('Missing/invalid Stripe publishable key.'); return;
+  try {
+    const r = await fetch(`${API_BASE}/get-stripe-publishable-key`, { method: 'GET' });
+    const { publishableKey } = await r.json();
+    if (!publishableKey || !publishableKey.startsWith('pk_')) {
+      throw new Error('Missing/invalid Stripe publishable key.');
+    }
+
+    stripe   = Stripe(publishableKey);
+    elements = stripe.elements();
+    card     = elements.create('card', { hidePostalCode: true });
+    card.mount('#card-element');
+  } catch (err) {
+    console.error(err);
+    alert('Payments are unavailable right now. Please try again later.');
   }
-  stripe   = Stripe(publishableKey);
-  elements = stripe.elements();
-  card     = elements.create('card', { hidePostalCode: true });
-  card.mount('#card-element');
 })();
 
+// -------- UI refs ----------
 const modal      = document.getElementById('subscribeModal');
 const closeBtn   = document.getElementById('closeModalBtn');
 const form       = document.getElementById('subForm');
 const errorBox   = document.getElementById('subError');
 const confirmBtn = document.getElementById('confirmBtn');
 
+// Open modal with selected plan
 document.querySelectorAll('.sub-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     activePlanKey = btn.getAttribute('data-plan');
@@ -36,11 +47,13 @@ document.querySelectorAll('.sub-btn').forEach(btn => {
   });
 });
 
+// Close modal
 closeBtn.addEventListener('click', () => {
   modal.hidden = true;
   document.body.classList.remove('modal-open');
 });
 
+// -------- Handle Checkout ----------
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!stripe || !card) return alert('Payments not ready yet.');
@@ -66,13 +79,16 @@ form.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount: plan.amount,
-        currency: plan.currency,
-        label: plan.label
+        amount: plan.amount,       // in cents
+        currency: plan.currency,   // 'usd'
+        label: plan.label          // description
       })
     });
+
     const data = await res.json();
-    if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Failed to create payment');
+    if (!res.ok || !data.clientSecret) {
+      throw new Error(data.error || 'Failed to create payment.');
+    }
 
     // Confirm with Card Element (card-only)
     const result = await stripe.confirmCardPayment(data.clientSecret, {
@@ -93,11 +109,14 @@ form.addEventListener('submit', async (e) => {
     document.body.classList.remove('modal-open');
     form.reset();
   } catch (err) {
+    console.error(err);
     errorBox.textContent = err.message || 'Payment failed. Please try again.';
   } finally {
     confirmBtn.disabled = false;
   }
 });
+
+
 
 
 
