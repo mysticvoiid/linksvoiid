@@ -10,13 +10,13 @@
 
   <!-- Cover -->
   <header class="cover" aria-label="Profile cover">
-    <img src="images/cover.jpg" alt="Cover photo" />
+    <img src="images/miac.jpeg" alt="Cover photo" />
 
     <!-- Name + stats on the cover -->
     <div class="cover-meta">
       <h1 class="display-name">
-        Voiidedking <span role="img" aria-label="face exhaling"></span><span role="img" aria-label="peach"></span>
-        <span class="verified" aria-label="Verified">✔</span>
+        Voiidedking <span role="img" aria-label="face exhaling">😮‍💨</span><span role="img" aria-label="peach">🍑</span>
+        <img src="icons/verified.png" alt="Verified" class="verified" />
       </h1>
 
       <div class="cover-stats" aria-label="Profile stats">
@@ -30,7 +30,7 @@
 
     <!-- Avatar -->
     <div class="avatar-wrap">
-      <img class="avatar" src="images/galaxy.jpg" alt="Profile avatar" />
+      <img class="avatar" src="images/miap.jpeg" alt="Profile avatar" />
       <span class="status-dot" title="Online"></span>
     </div>
   </header>
@@ -40,8 +40,8 @@
     <div class="identity">
       <div class="line">
         <h1 class="name-inline">
-          Voiidking <span role="img" aria-label="face exhaling"></span><span role="img" aria-label="peach"></span>
-          <span class="verified" aria-label="Verified">✔</span>
+          Voiidking <span role="img" aria-label="face exhaling">😮‍💨</span><span role="img" aria-label="peach">🍑</span>
+          <img src="icons/verified.png" alt="Verified" class="verified" />
         </h1>
       </div>
       <p class="username">
@@ -53,8 +53,8 @@
   <!-- Bio -->
   <section class="bio-block">
     <p class="bio">
-      shoes coming soon &amp; messages.
-      <em>*hello all, coming soon &amp; more </em>
+      This is where you can see A LOT of shoes &amp; messages.
+      <em>*hello all, coming soon &amp; more 😈</em>
     </p>
   </section>
 
@@ -65,7 +65,7 @@
     <button type="button" class="sub-btn" data-plan="semiannual">$95 Lifetime</button>
   </section>
 
-    <!-- Subscription Checkout Modal -->
+  <!-- Subscription Checkout Modal -->
   <div id="subscribeModal" class="sub-modal" hidden>
     <div class="sub-modal__dialog">
       <button class="sub-modal__close" id="closeModalBtn" aria-label="Close">×</button>
@@ -129,8 +129,122 @@
     </div>
   </div>
 
+  <!-- ========= TABS: POSTS | MEDIA ========= -->
+  <nav class="profile-tabs" aria-label="Profile sections">
+    <button class="tab-link is-active" data-tab="posts" aria-controls="tab-posts" aria-selected="true">
+      <span id="stat-posts" class="tab-count">772</span> POSTS
+    </button>
+    <button class="tab-link" data-tab="media" aria-controls="tab-media" aria-selected="false">
+      <span id="stat-media" class="tab-count">320</span> MEDIA
+    </button>
+  </nav>
 
+  <!-- Counts + duration config for JS (durMin/durMax in minutes) -->
+  <div id="media-data" data-photos="183" data-videos="137" data-dur-min="1" data-dur-max="28"></div>
 
+  <!-- ========= TAB: POSTS ========= -->
+  <section id="tab-posts" class="tab-panel" role="tabpanel" aria-labelledby="posts-tab">
+    <!-- Example locked post -->
+    <article class="ppv">
+      <header class="ppv__hdr">
+        <div class="ppv__hdr-left">
+          <img class="ppv__ava" src="images/miap.jpeg" alt="Voiidking avatar">
+          <div class="ppv__who">
+            <div class="ppv__name">
+              Voiidking
+              <img src="icons/verified.png" class="ppv__v" alt="Verified">
+            </div>
+            <div class="ppv__handle">@voiid</div>
+          </div>
+        </div>
+        <div class="ppv__date">Aug 3</div>
+      </header>
+
+      <p class="ppv__txt">Best Jordan shoes, subscribe now</p>
+
+      <div class="ppv__card">
+        <div class="ppv__media" role="img" aria-label="Locked video preview">
+          <div class="ppv__gray"></div>
+          <div class="ppv__lock-big" aria-hidden="true">
+            <img src="icons/lock.png" alt="">
+          </div>
+        </div>
+
+        <div class="ppv__panel" role="group" aria-label="Locked video actions">
+          <div class="ppv__len">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path d="M3 5h14v14H3zM17 9l4-2v10l-4-2V9z" fill="currentColor"/>
+            </svg>
+            <span>4:23</span>
+          </div>
+
+          <button type="button" class="ppv__cta">SUBSCRIBE TO UNLOCK VIDEO</button>
+
+          <img class="ppv__lock-sm" src="icons/lock.png" alt="Locked">
+        </div>
+      </div>
+
+      <div class="ppv__acts">
+        <button class="ppv__act" aria-label="Like">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path d="M12 21s-7-4.35-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.65-7 9-7 9z"
+                  fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </button>
+        <button class="ppv__act" aria-label="Comment">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v9z"
+                  fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="ppv__likes">2099 likes • 555 comments</div>
+    </article>
+  </section>
+
+  <!-- ========= TAB: MEDIA (no sub-filters; single mixed grid) ========= -->
+  <section id="tab-media" class="tab-panel" role="tabpanel" aria-labelledby="media-tab" hidden>
+    <!-- Single grid that the script will fill with photos + videos mixed -->
+    <div id="grid-all" class="media-grid" aria-live="polite"></div>
+
+    <!-- (Keep these hidden empties so older scripts don’t error if they expect them) -->
+    <div id="grid-photos" class="media-grid" aria-live="polite" hidden></div>
+    <div id="grid-videos" class="media-grid" aria-live="polite" hidden></div>
+  </section>
+
+  <!-- ========= MEDIA TILE TEMPLATES ========= -->
+
+  <!-- Photo tile template -->
+  <template id="tpl-photo">
+    <div class="media-tile media-tile--photo" role="button" tabindex="0" aria-label="Locked photo">
+      <div class="media-tile__bg"></div>
+      <!-- centered lock -->
+      <img class="media-tile__lock" src="icons/lock.png" alt="" aria-hidden="true">
+      <!-- bottom-left meta -->
+      <div class="media-tile__meta">
+        <img class="media-tile__icon" src="icons/pics.png" alt="" aria-hidden="true">
+        <span class="media-tile__small">1</span>
+      </div>
+    </div>
+  </template>
+
+  <!-- Video tile template (uses the SAME camcorder SVG as post) -->
+  <template id="tpl-video">
+    <div class="media-tile media-tile--video" role="button" tabindex="0" aria-label="Locked video">
+      <div class="media-tile__bg"></div>
+      <!-- centered lock -->
+      <img class="media-tile__lock" src="icons/lock.png" alt="" aria-hidden="true">
+      <!-- bottom-left meta: icon THEN duration -->
+      <div class="media-tile__meta">
+        <!-- inline camcorder icon (matches posts) -->
+        <svg class="media-tile__icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path d="M3 5h14v14H3zM17 9l4-2v10l-4-2V9z" fill="currentColor"/>
+        </svg>
+        <span class="media-tile__small media-dur" data-random-duration="true">0:00</span>
+      </div>
+    </div>
+  </template>
 
   <!-- Stripe + App scripts -->
   <script src="https://js.stripe.com/v3/"></script>
@@ -139,5 +253,15 @@
 </html>
 
 
+
+
+
+  
+
+  <!-- Stripe + App scripts -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
 
 
