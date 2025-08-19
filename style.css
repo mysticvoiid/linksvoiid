@@ -153,9 +153,8 @@ body{
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
-  background: rgba(0,0,0,.35);
   padding: 4px 8px;
   border-radius: 999px;
   backdrop-filter: blur(2px);
@@ -625,4 +624,5 @@ body{
   .media-tile__icon{ width:14px; height:14px; }
   .media-tile__small, .media-dur{ font-size:10px; }
 }
+
 
