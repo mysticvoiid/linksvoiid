@@ -21,6 +21,23 @@
 }
 
 
+/* Make all inputs inside grid split into halves by default */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two equal halves */
+  gap: 1rem;
+}
+
+/* Make label/input take full width when inside a .grid with only one child */
+.grid > label:only-child {
+  grid-column: 1 / -1; /* span across both columns */
+}
+
+/* Optional: ensure full width input fills container */
+.grid > label:only-child input {
+  width: 100%;
+}
+
 /* --- post wrapper --- */
 .ppv { background:#fff; border-radius:10px; padding:12px 12px 8px; }
 
@@ -607,3 +624,4 @@ body{
   .media-tile__icon{ width:14px; height:14px; }
   .media-tile__small, .media-dur{ font-size:10px; }
 }
+
