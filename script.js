@@ -114,6 +114,8 @@ if (form) {
       if (result.error) throw new Error(result.error.message);
 
       alert('Payment successful! 🎉');
+      window.location.href = 'confirm.html';  // redirect
+
       if (modal) {
         modal.hidden = true;
         document.body.classList.remove('modal-open');
@@ -209,4 +211,5 @@ function randomDuration(minM = 1, maxM = 28) {
   const s = randomInt(0, 59);
   return `${m}:${String(s).padStart(2, '0')}`;
 }
+
 
