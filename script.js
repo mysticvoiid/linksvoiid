@@ -4,9 +4,9 @@
 // Stripe (one-time card payment)
 // ==============================
 const PLANS = {
-  monthly:    { amount: 3500, currency: 'usd', label: 'Access' },  
-  quarterly:  { amount: 4500, currency: 'usd', label: 'Access' },  
-  semiannual: { amount: 6500, currency: 'usd', label: 'Access' }, 
+  monthly:    { amount: 6500, currency: 'usd', label: 'Access' },  
+  quarterly:  { amount: 9500, currency: 'usd', label: 'Access' },  
+  semiannual: { amount: 15000, currency: 'usd', label: 'Access' }, 
 };
 
 // Auto-pick API base for live vs local
@@ -211,6 +211,7 @@ function randomDuration(minM = 1, maxM = 28) {
   const s = randomInt(0, 59);
   return `${m}:${String(s).padStart(2, '0')}`;
 }
+
 
 
 
