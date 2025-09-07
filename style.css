@@ -157,7 +157,6 @@ body{
   font-size: 14px;
   padding: 4px 8px;
   border-radius: 999px;
-  backdrop-filter: blur(2px);
 }
 .stat{ display:inline-flex; align-items:center; gap:6px; }
 .stat-icon{ width:16px; height:16px; display:inline-block; }
@@ -624,5 +623,6 @@ body{
   .media-tile__icon{ width:14px; height:14px; }
   .media-tile__small, .media-dur{ font-size:10px; }
 }
+
 
 
