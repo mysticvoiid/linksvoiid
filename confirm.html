@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Confirmation</title>
-  <link rel="stylesheet" href="main.css"> <!-- optional shared styles -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIP Upgrade</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,41 +21,89 @@
       width: 90%;
       padding: 2rem;
       text-align: center;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
     .confirm-container h1 {
+      font-size: 22px;
       color: #28a745;
       margin-bottom: 1rem;
     }
-    .confirm-container p {
-      margin: 0.5rem 0;
+    .confirm-container h2 {
+      font-size: 20px;
+      margin: 1.5rem 0 0.5rem;
+      color: #333;
+    }
+    .confirm-container ul {
+      text-align: left;
+      margin: 0 auto 1.5rem;
+      padding: 0;
+      list-style: none;
+      max-width: 360px;
+    }
+    .confirm-container ul li {
+      margin: 0.4rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+      font-size: 15px;
       color: #444;
     }
-    .confirm-container .btn {
-      display: inline-block;
-      margin-top: 1.5rem;
-      padding: 0.75rem 1.5rem;
-      background: #007bff;
-      color: #fff;
-      border-radius: 4px;
+    .confirm-container ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #28a745;
+      font-size: 14px;
+    }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-weight: bold;
       text-decoration: none;
+      color: #fff;
       transition: background 0.3s ease;
     }
-    .confirm-container .btn:hover {
+    .btn-yes {
+      background: #007bff;
+    }
+    .btn-yes:hover {
       background: #0056b3;
+    }
+    .btn-no {
+      background: #6c757d;
+    }
+    .btn-no:hover {
+      background: #545b62;
     }
   </style>
 </head>
 <body>
   <div class="confirm-container">
-    <h1>✅ Payment Successful!</h1>
-    <p>Thank you for subscribing 🎉</p>
-    <p>Your subscription is now active and you have full access.</p>
-    <p>A confirmation email has been sent to your inbox.</p>
-    <p>If you don't see my videos or can't message, please message me on instagram @Miarenfav.</p>
-    
-    <a href="index.html" class="btn">Go to Home</a>
+    <h1>✅ Thank You for Subscribing!</h1>
+    <p>Your subscription is active 🎉</p>
+
+    <h2>Want to become a VIP Member for $65?</h2>
+    <ul>
+      <li>Exclusive VIP-only content</li>
+      <li>Priority responses</li>
+      <li>Behind-the-scenes access</li>
+      <li>Special discounts & bonuses</li>
+    </ul>
+
+    <div class="btn-row">
+      <!-- Change the href later to VIP flow -->
+      <a href="confirm.html" class="btn btn-yes">Yes, Upgrade</a>
+      <a href="confirm.html" class="btn btn-no">No, Thanks</a>
+    </div>
   </div>
 </body>
 </html>
+
+
