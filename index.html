@@ -103,28 +103,37 @@
 
     <!-- ========== STEP 1: SIGN UP (floating labels) ========== -->
     <section id="step-signup">
-      <h2 class="sub-modal__title">Create your account</h2>
+  <h2 class="sub-modal__title">Create your account</h2>
 
-      <form id="signupForm" novalidate>
-        <div class="grid">
-          <div class="float">
-            <input id="signupFullName" type="text" autocomplete="name" placeholder=" " required />
-            <label class="float__label" for="signupFullName">Full name</label>
-          </div>
+  <form id="signupForm" novalidate>
+    <div class="float">
+      <input id="signupFullName" type="text" autocomplete="name" placeholder=" " required />
+      <label class="float__label" for="signupFullName">Full name</label>
+    </div>
 
-          <div class="float">
-            <input id="signupEmail" type="email" autocomplete="email" placeholder=" " required />
-            <label class="float__label" for="signupEmail">Email</label>
-          </div>
-        </div>
+    <div class="float">
+      <input id="signupEmail" type="email" autocomplete="email" placeholder=" " required />
+      <label class="float__label" for="signupEmail">Email</label>
+    </div>
 
-        <div id="signupError" class="sub-error" role="alert"></div>
+    <div class="float">
+      <input id="signupPassword" type="password" autocomplete="new-password" placeholder=" " required />
+      <label class="float__label" for="signupPassword">Create password</label>
+    </div>
 
-        <button type="button" id="continueSignupBtn" class="sub-confirm">
-          Continue sign up
-        </button>
-      </form>
-    </section>
+    <div class="float">
+      <input id="signupConfirmPassword" type="password" autocomplete="new-password" placeholder=" " required />
+      <label class="float__label" for="signupConfirmPassword">Re-enter password</label>
+    </div>
+
+    <div id="signupError" class="sub-error" role="alert"></div>
+
+    <button type="button" id="continueSignupBtn" class="sub-confirm">
+      Continue sign up
+    </button>
+  </form>
+</section>
+
 
     <!-- ========== STEP 2: PAYMENT (plain labels; no floating) ========== -->
     <section id="step-payment" hidden>
@@ -149,9 +158,9 @@
           </div>
 
           <div>
-            <label for="state">State</label>
+            <label for="state"></label>
             <select id="state" autocomplete="address-level1" required>
-              <option value="" selected disabled>Select</option>
+              <option value="" selected disabled>Select State</option>
               <option value="AL">Alabama (AL)</option>
               <option value="AK">Alaska (AK)</option>
               <option value="AZ">Arizona (AZ)</option>
