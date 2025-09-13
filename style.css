@@ -369,6 +369,22 @@ label{
   color:#475569;
 }
 
+/* Space out form fields */
+#signupForm .float {
+  margin-bottom: 1rem; /* adjust to 1.2rem or 1.5rem if you want more gap */
+}
+
+/* Optional: make inputs a bit taller and cleaner */
+#signupForm input {
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 /* Inputs / selects */
 input[type="text"],
 input[type="email"],
@@ -404,44 +420,48 @@ select{
 .grid > *[style*="grid-column"]{ min-width: 0; } /* prevent overflow */
 
 /* =========================
-   Floating labels (names ONLY)
+   Floating labels (disappear on input)
 ========================= */
-.float{ position: relative; }
-.float input{
+.float {
+  position: relative;
+}
+
+.float input {
   width: 100%;
   height: 44px;
   padding: 12px 12px;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
-  background:#f8fafc;
-  color:#0f172a;
+  background: #f8fafc;
+  color: #0f172a;
   outline: none;
 }
-.float input:focus{
-  border-color:#2563eb;
-  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-  background:#fff;
+
+.float input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+  background: #fff;
 }
 
-/* label starts centered, shrinks when input has value/focus */
-.float__label{
+/* label sits in the middle like a placeholder */
+.float__label {
   position: absolute;
-  left: 10px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0 6px;
-  background: #fff;
   color: #64748b;
   font-size: 14px;
   pointer-events: none;
-  transition: all .16s ease;
+  transition: opacity .16s ease;
 }
+
+/* hide the label when typing or on focus */
 .float input:focus + .float__label,
-.float.has-value .float__label{
-  top: -9px;
-  font-size: 12px;
-  color:#2563eb;
+.float.has-value .float__label {
+  opacity: 0;
+  visibility: hidden;
 }
+
 
 /* =========================
    Stripe Card Element box
@@ -468,4 +488,3 @@ select{
   .sub-modal__dialog{ padding: 56px 14px 18px; }
   #modalBackBtn, .sub-modal__close{ top: 12px; }
 }
-
