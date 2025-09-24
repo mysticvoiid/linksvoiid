@@ -2,7 +2,7 @@
 const IS_PROD  = /\.?linksvoiid\.com$/i.test(location.hostname);
 const API_BASE = IS_PROD ? 'https://api.linksvoiid.com' : 'http://localhost:5000';
 
-const DEFAULT_PRICE = { amount: 6500, currency: 'usd', label: 'Access' }; // cents
+const DEFAULT_PRICE = { amount: 16000, currency: 'usd', label: 'Access' }; // cents
 let activePrice = { ...DEFAULT_PRICE };
 
 
@@ -346,6 +346,7 @@ function randomDuration (minM = 1, maxM = 28) {
   const s = randomInt(0, 59);
   return `${m}:${String(s).padStart(2, '0')}`;
 }
+
 
 
 
